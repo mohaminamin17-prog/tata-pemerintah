@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Laporan;
+use App\Helpers\SupabaseStorage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -29,9 +30,14 @@ class LppdController extends Controller
         $data = $request->except('file_path');
 
         if ($request->hasFile('file_path')) {
-            $fileName = Str::slug($request->title) . '_' . time() . '.' . $request->file_path->extension();  
-            $request->file_path->move(public_path('uploads/laporan'), $fileName);
-            $data['file_path'] = 'uploads/laporan/' . $fileName;
+            $fileName = Str::slug($request->title) . '_' . time() . '.' . $request->file_path->extension();
+
+            if (config('services.supabase.url')) {
+                $data['file_path'] = SupabaseStorage::upload($request->file('file_path'), 'laporan', $fileName);
+            } else {
+                $request->file_path->move(public_path('uploads/laporan'), $fileName);
+                $data['file_path'] = 'uploads/laporan/' . $fileName;
+            }
         }
 
         Laporan::create($data);

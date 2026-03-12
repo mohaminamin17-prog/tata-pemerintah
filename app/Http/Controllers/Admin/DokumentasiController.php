@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dokumentasi;
+use App\Helpers\SupabaseStorage;
 use Illuminate\Http\Request;
 
 class DokumentasiController extends Controller
@@ -40,9 +41,13 @@ class DokumentasiController extends Controller
         ];
 
         if ($request->hasFile('file_path') && $request->type === 'photo') {
-            $imageName = time().'.'.$request->file_path->extension();  
-            $request->file_path->move(public_path('uploads/dokumentasi'), $imageName);
-            $data['file_path'] = 'uploads/dokumentasi/' . $imageName;
+            if (config('services.supabase.url')) {
+                $data['file_path'] = SupabaseStorage::upload($request->file('file_path'), 'dokumentasi');
+            } else {
+                $imageName = time().'.'.$request->file_path->extension();  
+                $request->file_path->move(public_path('uploads/dokumentasi'), $imageName);
+                $data['file_path'] = 'uploads/dokumentasi/' . $imageName;
+            }
         }
 
         Dokumentasi::create($data);
@@ -77,9 +82,13 @@ class DokumentasiController extends Controller
 
         if ($request->type === 'photo') {
             if ($request->hasFile('file_path')) {
-                $imageName = time().'.'.$request->file_path->extension();  
-                $request->file_path->move(public_path('uploads/dokumentasi'), $imageName);
-                $data['file_path'] = 'uploads/dokumentasi/' . $imageName;
+                if (config('services.supabase.url')) {
+                    $data['file_path'] = SupabaseStorage::upload($request->file('file_path'), 'dokumentasi');
+                } else {
+                    $imageName = time().'.'.$request->file_path->extension();  
+                    $request->file_path->move(public_path('uploads/dokumentasi'), $imageName);
+                    $data['file_path'] = 'uploads/dokumentasi/' . $imageName;
+                }
             } else {
                 $data['file_path'] = $dokumentasi->file_path;
             }

@@ -87,7 +87,7 @@
         @if($struktur_organisasi)
         <div class="flex justify-center mb-12">
             <div class="bg-white p-4 rounded-2xl shadow-lg border border-slate-100 max-w-4xl w-full">
-                <img src="{{ asset($struktur_organisasi) }}" alt="Struktur Organisasi Bagian Tata Pemerintahan" class="max-w-full h-auto rounded-lg cursor-zoom-in hover:scale-[1.01] transition-transform duration-300" onclick="openModal('{{ asset($struktur_organisasi) }}')">
+                <img src="{{ upload_url($struktur_organisasi) }}" alt="Struktur Organisasi Bagian Tata Pemerintahan" class="max-w-full h-auto rounded-lg cursor-zoom-in hover:scale-[1.01] transition-transform duration-300" onclick="openModal('{{ upload_url($struktur_organisasi) }}')">
             </div>
         </div>
         @endif
@@ -108,7 +108,7 @@
                 <div class="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col">
                     <div class="aspect-[3/4] overflow-hidden bg-slate-100 relative">
                         @if($pejabat->foto)
-                            <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="{{ upload_url($pejabat->foto) }}" alt="{{ $pejabat->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         @else
                             <div class="w-full h-full flex items-center justify-center bg-slate-200">
                                 <span class="material-symbols-outlined text-6xl text-slate-400">person</span>

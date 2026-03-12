@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Pejabat;
 use App\Models\Setting;
+use App\Helpers\SupabaseStorage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -47,12 +48,14 @@ class ProfilController extends Controller
         ]);
 
         if ($request->hasFile('struktur_org_img')) {
-            $imageName = time().'.'.$request->struktur_org_img->getClientOriginalExtension();  
-            $request->struktur_org_img->move(public_path('uploads/profil'), $imageName);
-            Setting::updateOrCreate(
-                ['key' => 'struktur_org_img'],
-                ['value' => 'uploads/profil/' . $imageName]
-            );
+            if (config('services.supabase.url')) {
+                $url = SupabaseStorage::upload($request->file('struktur_org_img'), 'profil');
+                Setting::updateOrCreate(['key' => 'struktur_org_img'], ['value' => $url]);
+            } else {
+                $imageName = time().'.'.$request->struktur_org_img->getClientOriginalExtension();  
+                $request->struktur_org_img->move(public_path('uploads/profil'), $imageName);
+                Setting::updateOrCreate(['key' => 'struktur_org_img'], ['value' => 'uploads/profil/' . $imageName]);
+            }
         }
         return redirect()->back()->with('success', 'Bagan Struktur Organisasi berhasil diperbarui.');
     }
@@ -71,9 +74,14 @@ class ProfilController extends Controller
         $data = $request->except('foto');
 
         if ($request->hasFile('foto')) {
-            $imageName = Str::slug($request->name) . '_' . time() . '.' . $request->foto->getClientOriginalExtension();  
-            $request->foto->move(public_path('uploads/profil'), $imageName);
-            $data['foto'] = 'uploads/profil/' . $imageName;
+            if (config('services.supabase.url')) {
+                $data['foto'] = SupabaseStorage::upload($request->file('foto'), 'profil',
+                    Str::slug($request->name) . '_' . time() . '.' . $request->foto->getClientOriginalExtension());
+            } else {
+                $imageName = Str::slug($request->name) . '_' . time() . '.' . $request->foto->getClientOriginalExtension();  
+                $request->foto->move(public_path('uploads/profil'), $imageName);
+                $data['foto'] = 'uploads/profil/' . $imageName;
+            }
         }
 
         Pejabat::create($data);
@@ -94,9 +102,14 @@ class ProfilController extends Controller
         $data = $request->except('foto');
 
         if ($request->hasFile('foto')) {
-            $imageName = Str::slug($request->name) . '_' . time() . '.' . $request->foto->getClientOriginalExtension();  
-            $request->foto->move(public_path('uploads/profil'), $imageName);
-            $data['foto'] = 'uploads/profil/' . $imageName;
+            if (config('services.supabase.url')) {
+                $data['foto'] = SupabaseStorage::upload($request->file('foto'), 'profil',
+                    Str::slug($request->name) . '_' . time() . '.' . $request->foto->getClientOriginalExtension());
+            } else {
+                $imageName = Str::slug($request->name) . '_' . time() . '.' . $request->foto->getClientOriginalExtension();  
+                $request->foto->move(public_path('uploads/profil'), $imageName);
+                $data['foto'] = 'uploads/profil/' . $imageName;
+            }
         }
 
         $pejabat->update($data);

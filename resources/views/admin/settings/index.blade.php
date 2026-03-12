@@ -35,7 +35,7 @@
                     <input type="file" name="hero_image" class="hidden" accept="image/*">
                     <div class="aspect-video bg-slate-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
                         @if($hero_image)
-                            <img src="{{ asset($hero_image) }}" class="w-full h-full object-cover">
+                            <img src="{{ upload_url($hero_image) }}" class="w-full h-full object-cover">
                         @else
                             <span class="material-symbols-outlined text-slate-300 text-4xl">image</span>
                         @endif

@@ -23,7 +23,7 @@
 </div>
 <div class="relative order-1 lg:order-2">
 <div class="absolute -inset-4 bg-indigo-700/10 blur-3xl rounded-full"></div>
-<div class="relative aspect-video lg:aspect-square overflow-hidden rounded-2xl shadow-2xl border-4 border-white dark:border-slate-800 bg-slate-200 dark:bg-slate-800" data-alt="Modern government office interior in Indonesia" style='background-image: url("{{ $hero_image ? asset($hero_image) : 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2069' }}"); background-size: cover; background-position: center center;'>
+<div class="relative aspect-video lg:aspect-square overflow-hidden rounded-2xl shadow-2xl border-4 border-white dark:border-slate-800 bg-slate-200 dark:bg-slate-800" data-alt="Modern government office interior in Indonesia" style='background-image: url("{{ $hero_image ? upload_url($hero_image) : 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2069' }}"); background-size: cover; background-position: center center;'>
 </div>
 </div>
 </div>

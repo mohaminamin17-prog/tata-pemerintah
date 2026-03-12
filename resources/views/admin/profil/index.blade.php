@@ -149,7 +149,7 @@
                     @csrf
                     <div class="aspect-[3/4] bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl overflow-hidden relative group/upload shadow-inner">
                         @if($struktur_org_img)
-                            <img src="{{ asset($struktur_org_img) }}" class="w-full h-full object-contain p-4 group-hover/upload:scale-105 transition-transform duration-500">
+                            <img src="{{ upload_url($struktur_org_img) }}" class="w-full h-full object-contain p-4 group-hover/upload:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/upload:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
                                 <span class="bg-white text-slate-900 px-4 py-2 rounded-xl text-xs font-black shadow-xl">Ganti Gambar</span>
                             </div>
@@ -260,7 +260,7 @@
                                     <div class="flex items-center gap-4">
                                         <div class="size-14 rounded-2xl bg-white shadow-sm overflow-hidden flex items-center justify-center border-2 border-white group-hover:border-blue-200 transition-colors">
                                             @if($pejabat->foto)
-                                                <img src="{{ asset($pejabat->foto) }}" class="w-full h-full object-cover">
+                                                <img src="{{ upload_url($pejabat->foto) }}" class="w-full h-full object-cover">
                                             @else
                                                 <div class="size-full bg-slate-100 flex items-center justify-center text-slate-300 italic"><span class="material-symbols-outlined text-3xl">account_circle</span></div>
                                             @endif

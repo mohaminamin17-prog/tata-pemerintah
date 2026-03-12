@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Helpers\SupabaseStorage;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -37,12 +38,14 @@ class SettingController extends Controller
         Setting::updateOrCreate(['key' => 'hero_description'], ['value' => $request->hero_description]);
 
         if ($request->hasFile('hero_image')) {
-            $imageName = time().'.'.$request->hero_image->extension();  
-            $request->hero_image->move(public_path('uploads/settings'), $imageName);
-            Setting::updateOrCreate(
-                ['key' => 'hero_image'],
-                ['value' => 'uploads/settings/' . $imageName]
-            );
+            if (config('services.supabase.url')) {
+                $url = SupabaseStorage::upload($request->file('hero_image'), 'settings');
+                Setting::updateOrCreate(['key' => 'hero_image'], ['value' => $url]);
+            } else {
+                $imageName = time().'.'.$request->hero_image->extension();  
+                $request->hero_image->move(public_path('uploads/settings'), $imageName);
+                Setting::updateOrCreate(['key' => 'hero_image'], ['value' => 'uploads/settings/' . $imageName]);
+            }
         }
 
         return redirect()->route('admin.settings.index')->with('success', 'Hero section berhasil diperbarui.');
