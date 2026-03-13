@@ -90,14 +90,8 @@
                         </div>
 
                         <!-- Remember Me & Forgot -->
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <input class="h-4 w-4 text-[#1152d4] focus:ring-[#1152d4] border-slate-300 rounded transition-colors bg-white"
-                                    id="remember_me"
-                                    name="remember"
-                                    type="checkbox" />
-                                <label class="ml-2 block text-sm text-slate-600 cursor-pointer" for="remember_me">Ingat saya</label>
-                            </div>
+                        <div class="flex items-center justify-end">
+                            <!-- Remember Me removed for security fortification -->
                             @if (Route::has('password.request'))
                                 <div class="text-sm">
                                     <a class="font-medium text-[#1152d4] hover:text-[#1152d4]/80 transition-colors" href="{{ route('password.request') }}">Lupa Password?</a>

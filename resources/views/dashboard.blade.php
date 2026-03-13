@@ -46,23 +46,25 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Edit Visi & Misi -->
         <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-lg font-bold">Edit Visi & Misi</h3>
-                <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">Simpan Perubahan</button>
-            </div>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Visi Pemerintah Daerah</label>
-                    <textarea class="w-full rounded-lg border-slate-200 focus:ring-primary/20 focus:border-primary text-sm p-4" rows="3">Terwujudnya Kabupaten Tojo Una-Una yang Mandiri, Sejahtera dan Berdaya Saing.</textarea>
+            <form action="{{ route('admin.settings.visimisi') }}" method="POST">
+                @csrf
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-bold">Edit Visi & Misi</h3>
+                    <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">Simpan Perubahan</button>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Misi Utama</label>
-                    <textarea class="w-full rounded-lg border-slate-200 focus:ring-primary/20 focus:border-primary text-sm p-4" rows="5">1. Meningkatkan tata kelola pemerintahan yang profesional.
-2. Mengoptimalkan potensi sumber daya alam daerah.
-3. Mewujudkan pemerataan infrastruktur wilayah.
-4. Peningkatan kualitas pelayanan publik dasar.</textarea>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Visi Pemerintah Daerah</label>
+                        <textarea name="visi" class="w-full rounded-lg border-slate-200 focus:ring-primary/20 focus:border-primary text-sm p-4" rows="3">{{ \App\Models\Setting::where('key', 'visi')->value('value') ?? 'Terwujudnya Kabupaten Tojo Una-Una yang Mandiri, Sejahtera dan Berdaya Saing.' }}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Misi Utama</label>
+                        <textarea name="misi" class="w-full rounded-lg border-slate-200 focus:ring-primary/20 focus:border-primary text-sm p-4" rows="5">{{ \App\Models\Setting::where('key', 'misi')->value('value') ?? "1. Meningkatkan tata kelola pemerintahan yang profesional.\n2. Mengoptimalkan potensi sumber daya alam daerah.\n3. Mewujudkan pemerataan infrastruktur wilayah.\n4. Peningkatan kualitas pelayanan publik dasar." }}</textarea>
+                    </div>
+                    <!-- Hidden field for sambutan since it's required by the controller -->
+                    <input type="hidden" name="sambutan" value="{{ \App\Models\Setting::where('key', 'sambutan')->value('value') ?? 'Assalamualaikum Warahmatullahi Wabarakatuh...' }}">
                 </div>
-            </div>
+            </form>
         </section>
 
         <!-- Input Nilai EKK -->
@@ -101,7 +103,9 @@
                                     @else Kritikal @endif
                                 </span>
                             </td>
-                            <td class="py-4 text-primary font-medium cursor-pointer hover:underline">Edit</td>
+                            <td class="py-4">
+                                <a href="{{ route('admin.ekk-scores.edit', $score) }}" class="text-primary font-medium hover:underline">Edit</a>
+                            </td>
                         </tr>
                         @empty
                         <tr><td colspan="4" class="py-8 text-center text-slate-400 text-sm">Data EKK belum tersedia.</td></tr>
@@ -124,8 +128,8 @@
                     <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
                         <span class="material-symbols-outlined text-white">visibility</span>
                     </div>
-                    @if($doc->type === 'foto' && $doc->file_url)
-                        <img class="w-full h-full object-cover" alt="{{ $doc->title }}" src="{{ asset('storage/' . $doc->file_url) }}"/>
+                    @if($doc->type === 'photo' && $doc->file_path)
+                        <img class="w-full h-full object-cover" alt="{{ $doc->title }}" src="{{ upload_url($doc->file_path) }}"/>
                     @else
                         <div class="w-full h-full flex items-center justify-center bg-slate-100">
                             <span class="material-symbols-outlined text-slate-300 text-3xl">{{ $doc->type === 'video' ? 'videocam' : 'image' }}</span>

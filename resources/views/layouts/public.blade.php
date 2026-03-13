@@ -155,6 +155,7 @@
                             <li><a class="hover:text-primary transition-colors" href="{{ route('public.profil') }}">Profil Organisasi</a></li>
                             <li><a class="hover:text-primary transition-colors" href="{{ route('public.otda') }}">Sub Bagian Otda</a></li>
                             <li><a class="hover:text-primary transition-colors" href="{{ route('public.kewilayahan') }}">Sub Bagian Kewilayahan</a></li>
+                            <li><a class="hover:text-primary transition-colors font-medium opacity-50" href="{{ route('login') }}">Admin Area</a></li>
                         </ul>
                     </div>
 

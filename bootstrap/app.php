@@ -52,4 +52,8 @@ $app->singleton(
 |
 */
 
+if (isset($_SERVER['VERCEL_URL'])) {
+    $app->useStoragePath('/tmp/storage');
+}
+
 return $app;

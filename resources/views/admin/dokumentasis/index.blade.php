@@ -20,8 +20,8 @@
             @forelse($dokumentasis as $doc)
                 <div class="border border-slate-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow group">
                     <div class="aspect-video bg-slate-100 overflow-hidden relative">
-                        @if($doc->type === 'foto' && $doc->file_url)
-                            <img class="w-full h-full object-cover" alt="{{ $doc->title }}" src="{{ asset('storage/' . $doc->file_url) }}"/>
+                        @if($doc->type === 'photo' && $doc->file_path)
+                            <img class="w-full h-full object-cover" alt="{{ $doc->title }}" src="{{ upload_url($doc->file_path) }}"/>
                         @else
                             <div class="w-full h-full flex items-center justify-center bg-slate-100">
                                 <span class="material-symbols-outlined text-slate-300 text-4xl">{{ $doc->type === 'video' ? 'videocam' : 'image' }}</span>

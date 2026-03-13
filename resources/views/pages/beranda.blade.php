@@ -169,7 +169,7 @@
     @forelse($latest_dokumentasi as $doc)
         <div class="group relative aspect-video rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
             @if($doc->type === 'photo')
-                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="{{ asset($doc->file_path) }}" alt="{{ $doc->title }}"/>
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="{{ upload_url($doc->file_path) }}" alt="{{ $doc->title }}"/>
             @else
                 @php
                     preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/\s]{11})%i', $doc->youtube_url, $match);

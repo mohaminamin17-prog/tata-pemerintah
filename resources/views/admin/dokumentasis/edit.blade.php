@@ -34,7 +34,7 @@
                             @if($dokumentasi->type === 'photo' && $dokumentasi->file_path)
                                 <div class="mt-2">
                                     <p class="text-sm text-gray-500 mb-1">Foto Saat Ini:</p>
-                                    <img src="{{ asset($dokumentasi->file_path) }}" alt="{{ $dokumentasi->title }}" class="h-32 w-auto object-cover border rounded shadow-sm">
+                                    <img src="{{ upload_url($dokumentasi->file_path) }}" alt="{{ $dokumentasi->title }}" class="h-32 w-auto object-cover border rounded shadow-sm">
                                 </div>
                             @endif
                         </div>

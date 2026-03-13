@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\EkkScore;
 use App\Models\KerjaSama;
 use App\Models\Dokumentasi;
-use App\Models\StrukturOrganisasi;
 
 class AdminDashboardController extends Controller
 {

@@ -48,8 +48,8 @@
                     @if($doc->type === 'photo' && $doc->file_path)
                         <!-- Photo Card -->
                         <div x-show="filter === 'all' || filter === 'photo'" x-transition class="group relative overflow-hidden rounded-xl bg-white shadow-sm transition-all hover:shadow-2xl">
-                            <div class="aspect-video w-full overflow-hidden bg-slate-100 cursor-pointer" onclick="openModal('{{ asset($doc->file_path) }}')">
-                                <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ asset($doc->file_path) }}" alt="{{ $doc->title }}"/>
+                            <div class="aspect-video w-full overflow-hidden bg-slate-100 cursor-pointer" onclick="openModal('{{ upload_url($doc->file_path) }}')">
+                                <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ upload_url($doc->file_path) }}" alt="{{ $doc->title }}"/>
                                 <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                     <span class="material-symbols-outlined text-white text-4xl">zoom_in</span>
                                 </div>
