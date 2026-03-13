@@ -34,9 +34,11 @@ class LppdController extends Controller
 
             if (config('services.supabase.url')) {
                 $data['file_path'] = SupabaseStorage::upload($request->file('file_path'), 'laporan', $fileName);
-            } else {
+            } elseif (app()->environment('local')) {
                 $request->file_path->move(public_path('uploads/laporan'), $fileName);
                 $data['file_path'] = 'uploads/laporan/' . $fileName;
+            } else {
+                return redirect()->back()->withErrors(['file_path' => 'Penyimpanan file gagal: Supabase tidak terkonfigurasi pada environment ini.'])->withInput();
             }
         }
 
