@@ -25,6 +25,9 @@
         "VIEW_COMPILED_PATH": "/tmp",
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
-        "SESSION_DRIVER": "cookie"
+        "SESSION_DRIVER": "cookie",
+        "SUPABASE_URL": "https://tlcmkcamympklneqvqsn.supabase.co",
+        "SUPABASE_SERVICE_KEY": "sb_publishable_rUE5ftoRs5mdkOf-o26c1w_lXq7cSWi",
+        "SUPABASE_BUCKET": "uploads"
     }
 }
