@@ -1,4 +1,4 @@
-<?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
@@ -6,27 +6,30 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Helpers\SupabaseStorage;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class SettingController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        // Get specific settings for the forms
-        $hero_title = Setting::where('key', 'hero_title')->value('value') ?? 'Selamat Datang di Portal Resmi Tata Pemerintahan Kabupaten Tojo Una-Una';
-        $hero_description = Setting::where('key', 'hero_description')->value('value') ?? 'Menyediakan akses informasi publik terkait tata kelola pemerintahan, evaluasi kinerja, dan pelayanan administrasi wilayah bagi masyarakat Kabupaten Tojo Una-Una.';
-        $hero_image = Setting::where('key', 'hero_image')->value('value');
-        
-        $visi = Setting::where('key', 'visi')->value('value') ?? 'Terwujudnya Kabupaten Tojo Una-Una yang Mandiri, Sejahtera dan Berdaya Saing.';
-        $misi = Setting::where('key', 'misi')->value('value') ?? "1. Meningkatkan tata kelola pemerintahan yang profesional.\n2. Mengoptimalkan potensi sumber daya alam daerah.\n3. Mewujudkan pemerataan infrastruktur wilayah.\n4. Peningkatan kualitas pelayanan publik dasar.";
-        $sambutan = Setting::where('key', 'sambutan')->value('value') ?? 'Assalamualaikum Warahmatullahi Wabarakatuh, Puji syukur kita panjatkan ke hadirat Tuhan Yang Maha Esa atas rahmat-Nya portal informasi ini hadir untuk mendekatkan pelayanan kepada seluruh lapisan masyarakat...';
+        $keys = ['hero_title', 'hero_description', 'hero_image', 'visi', 'misi', 'sambutan'];
+        $settings = Setting::whereIn('key', $keys)->pluck('value', 'key');
 
-        // Get all settings for the raw table
+        $hero_title = $settings['hero_title'] ?? 'Selamat Datang di Portal Resmi Tata Pemerintahan Kabupaten Tojo Una-Una';
+        $hero_description = $settings['hero_description'] ?? 'Menyediakan akses informasi publik terkait tata kelola pemerintahan, evaluasi kinerja, dan pelayanan administrasi wilayah bagi masyarakat Kabupaten Tojo Una-Una.';
+        $hero_image = $settings['hero_image'] ?? null;
+        
+        $visi = $settings['visi'] ?? 'Terwujudnya Kabupaten Tojo Una-Una yang Mandiri, Sejahtera dan Berdaya Saing.';
+        $misi = $settings['misi'] ?? "1. Meningkatkan tata kelola pemerintahan yang profesional.\n2. Mengoptimalkan potensi sumber daya alam daerah.\n3. Mewujudkan pemerataan infrastruktur wilayah.\n4. Peningkatan kualitas pelayanan publik dasar.";
+        $sambutan = $settings['sambutan'] ?? 'Assalamualaikum Warahmatullahi Wabarakatuh, Puji syukur kita panjatkan ke hadirat Tuhan Yang Maha Esa atas rahmat-Nya portal informasi ini hadir untuk mendekatkan pelayanan kepada seluruh lapisan masyarakat...';
+
         $all_settings = Setting::all();
 
         return view('admin.settings.index', compact('hero_title', 'hero_description', 'hero_image', 'visi', 'misi', 'sambutan', 'all_settings'));
     }
 
-    public function updateHero(Request $request)
+    public function updateHero(Request $request): RedirectResponse
     {
         $request->validate([
             'hero_title' => 'required|string',
@@ -51,7 +54,7 @@ class SettingController extends Controller
         return redirect()->route('admin.settings.index')->with('success', 'Hero section berhasil diperbarui.');
     }
 
-    public function updateVisiMisi(Request $request)
+    public function updateVisiMisi(Request $request): RedirectResponse
     {
         $request->validate([
             'visi' => 'required|string',
@@ -66,13 +69,12 @@ class SettingController extends Controller
         return redirect()->route('admin.settings.index')->with('success', 'Visi, Misi & Sambutan berhasil diperbarui.');
     }
 
-    // Standard Resource Methods for raw settings table
-    public function create()
+    public function create(): View
     {
         return view('admin.settings.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'key' => 'required|string|unique:settings,key',
@@ -83,12 +85,12 @@ class SettingController extends Controller
         return redirect()->route('admin.settings.index')->with('success', 'Setting baru berhasil ditambahkan.');
     }
 
-    public function edit(Setting $setting)
+    public function edit(Setting $setting): View
     {
         return view('admin.settings.edit', compact('setting'));
     }
 
-    public function update(Request $request, Setting $setting)
+    public function update(Request $request, Setting $setting): RedirectResponse
     {
         $request->validate([
             'key' => 'required|string|unique:settings,key,' . $setting->id,
@@ -99,7 +101,7 @@ class SettingController extends Controller
         return redirect()->route('admin.settings.index')->with('success', 'Setting berhasil diperbarui.');
     }
 
-    public function destroy(Setting $setting)
+    public function destroy(Setting $setting): RedirectResponse
     {
         $setting->delete();
         return redirect()->route('admin.settings.index')->with('success', 'Setting berhasil dihapus.');

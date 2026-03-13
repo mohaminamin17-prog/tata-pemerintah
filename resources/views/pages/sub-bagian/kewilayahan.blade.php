@@ -1,37 +1,20 @@
 @extends('layouts.public')
 
+@section('title', 'Administrasi Kewilayahan - Tata Pemerintahan')
+
 @section('content')
-<!-- Hero Section -->
-<section class="relative px-4 lg:px-40 py-16 overflow-hidden">
-    <div class="absolute inset-0 z-0 bg-primary/5">
-        <div class="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-amber-500/10 to-transparent"></div>
-    </div>
-    <div class="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-        <div class="flex flex-col gap-6">
-            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-600 text-xs font-bold uppercase tracking-wider w-fit">
-                <span class="material-symbols-outlined text-sm">location_on</span> Administrasi Wilayah
-            </span>
-            <h1 class="text-4xl lg:text-6xl font-black text-slate-900 leading-[1.1]">Layanan<br>
-                <span class="text-primary">Kewilayahan</span>
-            </h1>
-            <p class="text-lg text-slate-600 max-w-xl leading-relaxed">
-                Fokus pada penyelenggaraan administrasi kewilayahan, penegasan batas daerah, dan pengelolaan data spasial rupa bumi di wilayah Kabupaten Tojo Una-Una untuk pemetaan yang akurat dan terintegrasi.
-            </p>
-            <div class="flex flex-wrap gap-4 pt-4">
-                <a href="{{ route('public.profil') }}" class="bg-primary text-white font-bold px-8 py-4 rounded-xl shadow-lg shadow-primary/25 hover:-translate-y-1 transition-all">
-                    Profil Organisasi
-                </a>
-                <a href="{{ route('public.otda') }}" class="bg-white text-slate-900 font-bold px-8 py-4 rounded-xl border border-slate-200 hover:bg-slate-50 transition-all">
-                    Otonomi Daerah
-                </a>
-            </div>
-        </div>
-        <div class="hidden lg:block relative">
-            <div class="absolute -inset-4 bg-amber-500/20 rounded-full blur-3xl opacity-30"></div>
-            <img class="relative rounded-2xl shadow-2xl border-5 border-white w-full object-cover aspect-video" alt="Peta wilayah Tojo Una-Una" src="{{ asset('assets/wilayah.jpg') }}">
-        </div>
-    </div>
-</section>
+<main class="pt-20">
+    {{-- Hero Section --}}
+    <x-sub-bagian-hero 
+        badge="Administrasi Wilayah"
+        title="Layanan Kewilayahan"
+        subtitle="Fokus pada penyelenggaraan administrasi kewilayahan, penegasan batas daerah, dan pengelolaan data spasial rupa bumi untuk pemetaan yang akurat."
+        image="https://images.unsplash.com/photo-1526778545894-de814b1d756e?auto=format&fit=crop&q=80&w=2040"
+        :links="[
+            ['url' => $rupabumi_link ?? '#', 'label' => 'Akses Sinar BIG'],
+            ['url' => $lkpj_link ?? '#', 'label' => 'Data Dukung LKPJ', 'secondary' => true]
+        ]"
+    />
 
 <!-- Peta Wilayah Interaktif Section -->
 <section class="px-4 lg:px-40 py-20 bg-white">

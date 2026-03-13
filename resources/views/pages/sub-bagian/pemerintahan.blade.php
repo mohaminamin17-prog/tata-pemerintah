@@ -1,46 +1,23 @@
 @extends('layouts.public')
 
+@section('title', 'Layanan Pemerintahan - Tata Pemerintahan')
+
 @section('content')
-<!-- Hero Section -->
-<section class="relative py-16 lg:py-24 bg-white overflow-hidden">
-    <div class="absolute top-0 right-0 w-1/3 h-full bg-primary/5 rounded-l-full blur-3xl -z-10"></div>
-    <div class="max-w-7xl mx-auto px-4 lg:px-20 grid lg:grid-cols-2 gap-12 items-center">
-        <div class="flex flex-col gap-6">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider w-fit">
-                <span class="relative flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                </span>
-                Sistem Informasi Pemerintahan
-            </div>
-            <h1 class="text-4xl lg:text-6xl font-black text-slate-900 leading-[1.1] tracking-tight">Layanan<br><span class="text-primary">Pemerintahan</span>
-            </h1>
-            <p class="text-lg text-slate-600 leading-relaxed max-w-xl">
-                Pusat administrasi pemerintahan dan evaluasi kinerja wilayah untuk mendukung tata kelola pelayanan publik yang lebih baik dan transparan di wilayah Kabupaten Tojo Una-Una.
-            </p>
-            <div class="flex flex-wrap gap-4 mt-4">
-                @if($spm_link)
-                    <a href="{{ $spm_link }}" target="_blank" class="bg-primary hover:bg-primary/90 text-white font-bold h-12 px-8 rounded-lg transition-all shadow-lg shadow-primary/25 inline-flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">open_in_new</span>
-                        Akses SPM
-                    </a>
-                @endif
-                <a href="{{ route('public.profil') }}" class="bg-white border border-slate-200 text-slate-700 font-bold h-12 px-8 rounded-lg hover:bg-slate-50 transition-all inline-flex items-center">
-                    Lihat Profil
-                </a>
-            </div>
-        </div>
-        <div class="relative group hidden lg:block">
-            <div class="absolute inset-0 bg-primary/20 rounded-2xl rotate-3 group-hover:rotate-1 transition-transform"></div>
-            <div class="relative aspect-video rounded-2xl bg-cover bg-center shadow-2xl overflow-hidden border-4 border-white" style='background-image: url("{{ asset('assets/pemerintahan.jpg') }}");'>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-            </div>
-        </div>
-    </div>
-</section>
+<main class="pt-20">
+    {{-- Hero Section --}}
+    <x-sub-bagian-hero 
+        badge="Sistem Informasi Pemerintahan"
+        title="Layanan Pemerintahan"
+        subtitle="Pusat administrasi pemerintahan dan evaluasi kinerja wilayah untuk mendukung tata kelola pelayanan publik yang lebih baik dan transparan."
+        image="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80&w=2084"
+        :links="[
+            ['url' => $spm_link ?? '#', 'label' => 'Akses SPM'],
+            ['url' => '#ekk', 'label' => 'Data EKK', 'secondary' => true]
+        ]"
+    />
 
 <!-- Modul EKK Section -->
-<section class="py-16 bg-slate-50">
+<section id="ekk" class="py-16 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 lg:px-20">
         <div class="mb-8">
             <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
