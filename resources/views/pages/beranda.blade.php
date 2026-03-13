@@ -37,7 +37,7 @@
                 <div class="relative aspect-[4/3] sm:aspect-video lg:aspect-square overflow-hidden rounded-3xl shadow-2xl border-[12px] border-white dark:border-slate-800 bg-slate-200 dark:bg-slate-800"
                      x-show="loaded" x-transition:enter="transition ease-out duration-1000" x-transition:enter-start="opacity-0 scale-95 rotate-1">
                     <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-110" 
-                         style='background-image: url("{{ $hero_image ? upload_url($hero_image) : 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2069' }}");'>
+                         style='background-image: url("{{ $hero_image ? upload_url($hero_image) : asset('assets/beranda.jpeg') }}");'>
                         <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent"></div>
                     </div>
                 </div>
