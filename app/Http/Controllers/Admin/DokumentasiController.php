@@ -43,10 +43,12 @@ class DokumentasiController extends Controller
         if ($request->hasFile('file_path') && $request->type === 'photo') {
             if (config('services.supabase.url')) {
                 $data['file_path'] = SupabaseStorage::upload($request->file('file_path'), 'dokumentasi');
-            } else {
+            } elseif (app()->environment('local')) {
                 $imageName = time().'.'.$request->file_path->extension();  
                 $request->file_path->move(public_path('uploads/dokumentasi'), $imageName);
                 $data['file_path'] = 'uploads/dokumentasi/' . $imageName;
+            } else {
+                return redirect()->back()->withErrors(['file_path' => 'Penyimpanan file gagal: Supabase tidak terkonfigurasi pada environment ini.'])->withInput();
             }
         }
 
@@ -84,10 +86,12 @@ class DokumentasiController extends Controller
             if ($request->hasFile('file_path')) {
                 if (config('services.supabase.url')) {
                     $data['file_path'] = SupabaseStorage::upload($request->file('file_path'), 'dokumentasi');
-                } else {
+                } elseif (app()->environment('local')) {
                     $imageName = time().'.'.$request->file_path->extension();  
                     $request->file_path->move(public_path('uploads/dokumentasi'), $imageName);
                     $data['file_path'] = 'uploads/dokumentasi/' . $imageName;
+                } else {
+                    return redirect()->back()->withErrors(['file_path' => 'Penyimpanan file gagal: Supabase tidak terkonfigurasi pada environment ini.'])->withInput();
                 }
             } else {
                 $data['file_path'] = $dokumentasi->file_path;

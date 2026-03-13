@@ -45,10 +45,12 @@ class SettingController extends Controller
             if (config('services.supabase.url')) {
                 $url = SupabaseStorage::upload($request->file('hero_image'), 'settings');
                 Setting::updateOrCreate(['key' => 'hero_image'], ['value' => $url]);
-            } else {
+            } elseif (app()->environment('local')) {
                 $imageName = time().'.'.$request->hero_image->extension();  
                 $request->hero_image->move(public_path('uploads/settings'), $imageName);
                 Setting::updateOrCreate(['key' => 'hero_image'], ['value' => 'uploads/settings/' . $imageName]);
+            } else {
+                return redirect()->back()->withErrors(['hero_image' => 'Penyimpanan file gagal: Supabase tidak terkonfigurasi pada environment ini.'])->withInput();
             }
         }
 

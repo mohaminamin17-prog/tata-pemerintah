@@ -51,10 +51,12 @@ class ProfilController extends Controller
             if (config('services.supabase.url')) {
                 $url = SupabaseStorage::upload($request->file('struktur_org_img'), 'profil');
                 Setting::updateOrCreate(['key' => 'struktur_org_img'], ['value' => $url]);
-            } else {
+            } elseif (app()->environment('local')) {
                 $imageName = time().'.'.$request->struktur_org_img->getClientOriginalExtension();  
                 $request->struktur_org_img->move(public_path('uploads/profil'), $imageName);
                 Setting::updateOrCreate(['key' => 'struktur_org_img'], ['value' => 'uploads/profil/' . $imageName]);
+            } else {
+                return redirect()->back()->withErrors(['struktur_org_img' => 'Penyimpanan file gagal: Supabase tidak terkonfigurasi pada environment ini.'])->withInput();
             }
         }
         return redirect()->back()->with('success', 'Bagan Struktur Organisasi berhasil diperbarui.');
